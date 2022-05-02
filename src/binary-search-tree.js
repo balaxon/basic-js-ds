@@ -73,46 +73,43 @@ class BinarySearchTree {
   }
 
   remove(data) {
-    this.tree = removeNode(this.tree, data);
+    this.tree = removeData(this.tree, data);
+    function removeData(node, data) {
+      if (!node) {
+        return null;
+      }
 
-        function removeNode(node, data) {
-            if (!node) {
-                return null;
-            }
-            if (data < node.data) {
-                node.left = removeNode(node.left, data)
-            } else if (node.data < data) {
-                node.right = removeNode(node.right, data)
-                return node;
-
-            } else {
-
-                if (!node.left && !node.right) {
-                    return null;
-                }
-
-
-                if (!node.left) {
-                    node = node.right;
-                    return node;
-                }
-
-                if (!node.right) {
-                    node = node.left;
-                    return node;
-                }
-
-                let minRight = node.right;
-                while (minRight.left) {
-                    minRight = minRight.left;
-                }
-                node.data = minRight.data;
-
-                node.right = removeNode(node.right, minRight.data)
-
-                return node;
-            }
+      if (data < node.data) {
+        node.left = removeData(node.left, data);
+        return node;
+      } else if (data > node.data) {
+        node.right = removeData(node.right, data);
+        return node;
+      } else {
+        if (!node.left && !node.right) {
+          return null;
         }
+
+        if (!node.left) {
+          node = node.right;
+          return node;
+        }
+
+        if (!node.right) {
+          node = node.left;
+          return node;
+        }
+
+        let minRigth = node.right;
+
+        while (minRigth.left) {
+          minRigth = minRigth.left;
+        }
+        node.data = minRigth.data;
+        node.right = removeData(node.right, minRigth.data);
+        return node;
+      }
+    }
   }
 
   min() {
